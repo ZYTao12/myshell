@@ -12,7 +12,7 @@ A simple shell implementation in C that provides basic command-line functionalit
 - Clean exit functionality
 
 ## Project Structure
-
+```
 ├── Makefile
 ├── README.md
 ├── Report.pdf # To be included
@@ -22,7 +22,7 @@ A simple shell implementation in C that provides basic command-line functionalit
 ├──├── parser.h # Parser header file
 ├──├── executor.c # Command execution functionality
 └──└── executor.h # Executor header file
-
+```
 
 ## Implementation Details
 
