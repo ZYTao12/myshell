@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
+#include <string.h>
 #include "executor.h"
 
 /*
@@ -39,9 +41,12 @@ void execute_command(char **args) {
     } else if (pid == 0) {
         // Child process: execute the command using execvp
         if (execvp(args[0], args) == -1) {
-            perror("myshell");
+            if (errno == ENOENT)
+                fprintf(stderr, "myshell: command not found: %s\n", args[0]);
+            else
+                fprintf(stderr, "myshell: %s: %s\n", args[0], strerror(errno));
+            exit(EXIT_FAILURE);
         }
-        exit(EXIT_FAILURE);
     } else {
         // Parent process: wait for the child process to complete
         while (waitpid(pid, &status, WUNTRACED) > 0) {
