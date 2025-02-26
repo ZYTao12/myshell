@@ -1,11 +1,18 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-// Splits the input string into tokens and returns a dynamically allocated array of tokens.
-// It is the caller's responsibility to free the allocated memory using free_args.
+#include "executor.h"
+
+// Splits the input string into tokens
 char **parse_input(const char *input);
 
-// Frees the memory allocated for an array of tokens.
+// Splits a command line into separate commands based on pipes
+char ***split_pipeline(char **tokens, int *cmd_count);
+
+// Parses a single command with its redirections
+Command *parse_command(char **tokens, int start, int end);
+
+// Frees the memory allocated for an array of tokens
 void free_args(char **args);
 
 #endif // PARSER_H
