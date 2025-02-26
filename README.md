@@ -1,79 +1,132 @@
-# CS-UH 3010 myshell
+# MyShell Implementation
 
-A simple shell implementation in C that provides basic command-line functionality.
+A robust shell implementation in C that provides comprehensive command-line functionality including pipes, redirections, and error handling.
 
-## Current Features
+## Features
 
-- Interactive shell prompt
-- Command execution with arguments
-- Basic error handling
-- Memory management for command parsing
+### Basic Command Execution
+- Interactive shell prompt (`$`)
+- Execution of commands with and without arguments (`ls`, `ls -l`, etc.)
 - Support for system commands through `execvp`
-- Clean exit functionality
+- Built-in commands (`cd`, `exit`)
+
+### Input/Output Redirection
+- Input redirection (`<`)
+- Output redirection (`>`)
+- Error redirection (`2>`)
+- Append mode (`>>`)
+
+### Pipeline Support
+- Multiple command pipeline execution (`|`)
+- Support for n-length pipelines
+- Proper handling of pipe input/output
+
+### Error Handling
+- Missing file errors
+- Command not found errors
+- Syntax error detection
+- Missing redirection target errors
+- Pipeline errors
+- Memory allocation errors
 
 ## Project Structure
 ```
+.
 ├── Makefile
 ├── README.md
-├── Report.pdf # To be included
+├── Report.pdf
 └── src/
-├──├── myshell.c # Main shell implementation
-├──├── parser.c # Input parsing functionality
-├──├── parser.h # Parser header file
-├──├── executor.c # Command execution functionality
-└──└── executor.h # Executor header file
+    ├── myshell.c    # Main shell loop and command processing
+    ├── parser.c     # Command parsing and tokenization
+    ├── parser.h     # Parser declarations
+    ├── executor.c   # Command execution and pipeline handling
+    └── executor.h   # Executor declarations
 ```
 
 ## Implementation Details
 
-### Main Shell Loop
-The main shell implementation (in `myshell.c`) provides an interactive loop that:
-- Displays a prompt (`$`)
-- Reads user input
-- Parses the input into commands and arguments
-- Executes the commands
-- Handles program termination
+### Main Shell (myshell.c)
+- Implements interactive command loop
+- Handles built-in commands
+- Manages command execution flow
+- Provides error reporting
 
-### Parser
-The parser component:
-- Splits input strings into tokens based on whitespace
-- Handles dynamic memory allocation for tokens
-- Provides memory cleanup functionality
-- Uses standard C string manipulation functions
+### Parser (parser.c)
+- Tokenizes input commands
+- Handles quoted strings
+- Parses redirection operators
+- Manages pipeline splitting
+- Memory management for command structures
 
-### Executor
-The executor component:
-- Creates child processes using `fork()`
-- Executes commands using `execvp()`
-- Handles basic error reporting
-- Manages process waiting and status checking
+### Executor (executor.c)
+- Manages process creation and execution
+- Handles input/output redirection
+- Implements pipeline execution
+- Process synchronization and cleanup
 
-## Building the Project
+## Building and Running
 
-To build the project, use the provided Makefile:
-```
+### Prerequisites
+- GCC compiler
+- UNIX-like environment (Linux/macOS)
+- Make utility
+
+### Building
+```bash
 make
 ```
-To clean the build files:
-```
+
+### Cleaning (To clean uo compiled files)
+```bash
 make clean
 ```
 
-## Running the Shell
-
-After building, run the shell:
-```
+### Running
+```bash
 ./myshell
 ```
 
-## Usage
+## Usage Examples
 
-1. Start the shell
-2. Enter commands at the prompt (`$`)
-3. Commands will be executed with their arguments
-4. To exit, type `exit` or use Ctrl+D
+### Basic Commands
+```bash
+$ ls
+$ ps aux
+$ pwd
+```
+
+### Redirection
+```bash
+$ ls > output.txt //Output redirection
+$ cat < input.txt //Input redirection
+$ ls 2> error.log //Error redirection
+$ echo "append" >> file.txt //Append mode
+```
+
+### Pipelines
+```bash
+$ ls | grep .txt
+$ cat input.txt | sort | uniq
+```
+
+### Combined Operations
+```bash
+$ cat < input.txt | sort | uniq > output.txt
+$ grep "error" < logs.txt | sort | uniq 2> error.log
+```
+
+## Error Handling Examples
+- Missing input file: `cat < `
+- Missing output file: `ls >`
+- Invalid command: `invalidcmd`
+- Pipeline errors: `ls | | grep test`
+- File not found: `cat nonexistent.txt`
 
 ## Authors
-Rabeya Zahan Mily
+- Rabeya Zahan Mily
+- Ziyue Tao
 
-Ziyue Tao
+## Course Information
+CS-UH 3010 Operating Systems
+Spring 2024
+NYUAD
